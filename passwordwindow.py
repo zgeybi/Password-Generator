@@ -7,6 +7,10 @@ class PasswordSection:
     data = {}
 
     def __init__(self, data):
+        """
+        data: dictionary of credentials {usernames:passwords}
+        constructor of password generator window
+        """
         self.data = data
         self.window2 = ctk.CTkToplevel()
         self.window2.geometry("500x500")
@@ -26,6 +30,9 @@ class PasswordSection:
         self.window2.mainloop()
 
     def call_generator(self):
+        """
+        as the name suggests, it calls password generator then writes the new password into self.data
+        """
         passw = pg.generator()
         print(passw)
         password = ctk.CTkLabel(self.window2, text=f"Your password is: {passw}", font=('System', 20), text_color='#b82c2c')
