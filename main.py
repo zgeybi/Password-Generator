@@ -1,32 +1,36 @@
-import pyinputplus as py
-import os
-import tkinter as tk
-import tkinter.ttk as ttk
-import passwordwindow
-import searchforpasswords
+import customtkinter as ctk
+import register
+import login
 
 
-def main():
-    window = tk.Tk()
-    window.title("Main Menu")
-    window.geometry("500x500")
+class App:
+    def __init__(self):
+        self.root = ctk.CTk()
+        self.root.geometry('500x500')
+        self.root.title("Main Menu")
+        self.window = ctk.CTkFrame(self.root)
+        self.window.pack(fill='both', expand=True)
+        ctk.set_appearance_mode('dark')
+        ctk.set_default_color_theme('green')
 
-    label1 = ttk.Label(text="Password generator", padding=7)
-    label1.grid(column=0, row=0, sticky='W', pady=2, padx=5)
-    label1.grid_rowconfigure(index=0, weight=3, minsize=100)
-    label1.grid_columnconfigure(index=0, weight=3, minsize=100)
-    generator_page = ttk.Button(text="Password generator", command=passwordwindow.password_section)
-    generator_page.grid(column=1, row=0, columnspan=2, pady=2, sticky='E', padx=5)
-    label2 = ttk.Label(text="Find password", padding=7)
-    label2.grid(row=1, column=0, pady=2, padx=5)
-    password_finder_page = ttk.Button(text="Find password", command=searchforpasswords.lookup)
-    password_finder_page.grid(row=1, column=1, columnspan=2, pady=2, padx=5)
+        self.label = ctk.CTkLabel(self.window, text="Please register or login to start", font=('System', 20))
+        self.label.pack(pady=12, padx=10)
 
-    window.mainloop()
+        self.button1 = ctk.CTkButton(self.window, text='Register', command=self.regist, font=('System', 20))
+        self.button1.pack(pady=12, padx=10)
+
+        self.button2 = ctk.CTkButton(self.window, text='Login', command=self.log, font=('System', 20))
+        self.button2.pack(pady=12, padx=10)
+
+        self.root.mainloop()
+
+    def regist(self):
+        reg = register.RegisterWindow()
+
+    def log(self):
+        auth = login.LoginWindow()
 
 
-if os.path.exists('./passwords.txt'):
-    main()
-else:
-    os.system('touch passwords.txt')
-    main()
+if __name__ == '__main__':
+    app = App()
+
