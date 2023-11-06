@@ -3,6 +3,11 @@ import os
 
 
 def connect_socket(username, password, auth):
+    """
+    username: master username, password: master password, auth: registration or loging in (reg/log)
+    connects to host and delivers credentials for authenticating
+    
+    """
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     client.connect(('91.192.102.214', 5050))
@@ -42,6 +47,9 @@ def connect_socket(username, password, auth):
 
 
 def exit(username):
+    """
+    username: master username. sends newly generated passwords and edited old ones to host
+    """
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client.connect(('91.192.102.214', 5000))
     client.send(str.encode(username))
