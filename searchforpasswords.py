@@ -25,6 +25,9 @@ class PasswordLookup:
         self.root.mainloop()
 
     def save(self):
+        """
+        records changes of passwords then ecnrypts it and calls client.exit to send new data back to storage
+        """
         data = self.text.get(index1='1.0', index2='end').split('\n')
         print(data)
         new_data = {}

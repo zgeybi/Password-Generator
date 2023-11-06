@@ -39,6 +39,9 @@ class RegisterWindow:
         app = main.App
 
     def register(self):
+        """
+        sends credentials of new user to client.py for registration and returns response, in case of successful response, opens menu
+        """
         username = self.username_entry.get()
         password = self.password_entry.get()
         response = client.connect_socket(username, password, 'reg')
