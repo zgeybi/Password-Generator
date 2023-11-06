@@ -10,6 +10,9 @@ class Menu:
     data = {}
 
     def __init__(self, username, dic):
+        """
+        constructor of main menu, username: master username, dic: dictionary of {usernames:passwords}
+        """
         self.data = dic
         self.username = username
         self.root = ctk.CTk()
@@ -40,6 +43,10 @@ class Menu:
         view = sfp.PasswordLookup(self.data, self.username)
 
     def save_passwords(self):
+        """
+        encrypts newly generated passwords and prepares it for sending back to host for storage
+        calls client.exit which sends back new data
+        """
         with open('file.key', 'rb') as f:
             key = f.read()
 
