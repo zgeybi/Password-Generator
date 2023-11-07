@@ -35,6 +35,10 @@ class RegisterWindow:
         app = main.App
 
     def register(self):
+        """
+        sends username and password to server to create new user 
+        in case of successful registration, generates unique fernet encryption key and writes it into 'file.key' to save it
+        """
         username = self.username_entry.get()
         password = self.password_entry.get()
         response = client.connect_socket(username, password, 'reg')
