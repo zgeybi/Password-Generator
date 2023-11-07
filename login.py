@@ -39,6 +39,9 @@ class LoginWindow:
         app = main.App()
 
     def login(self):
+        """
+        gets username and password from entry fields and calls client.connectsocket() to send credentials for verification
+        """
         username = self.username_entry.get()
         password = self.password_entry.get()
         response = client.connect_socket(username, password, 'log')
