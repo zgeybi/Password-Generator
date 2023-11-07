@@ -26,6 +26,9 @@ class PasswordLookup:
         self.root.mainloop()
 
     def decrypt_data(self, data):
+        """
+        takes dictionary of credentials as input, decrypts data and returns decrypted dictionary for presentation in window
+        """
         with open('file.key', 'rb') as f:
             key = f.read()
         fernet = F(key)
@@ -36,6 +39,10 @@ class PasswordLookup:
         return decrypted_data
 
     def save(self):
+        """
+        reads updated passwords from text field, encrypts data and writes it into cache file 'temp.txt' then calls client.exit() to
+        send data back to server for storage
+        """
         data = self.text.get(index1='1.0', index2='end').split('\n')
         print(data)
         new_data = {}
