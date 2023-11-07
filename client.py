@@ -3,11 +3,6 @@ import os
 
 
 def connect_socket(username, password, auth):
-    """
-    username: master username, password: master password, auth: registration or loging in (reg/log)
-    connects to host and delivers credentials for authenticating
-    
-    """
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     client.connect(('91.192.102.214', 5050))
@@ -28,10 +23,15 @@ def connect_socket(username, password, auth):
         else:
             client.send(str.encode('s'))
             dic = {}
+            print(n)
             for i in n:
-                username = client.recv(1024).decode()
+                username = client.recv(2048)
+                print(type(username))
+                print(username)
                 client.send(str.encode('s'))
-                password = client.recv(1024).decode()
+                password = client.recv(2048)
+                print(type(password))
+                print(password)
                 client.send(str.encode('s'))
                 dic[username] = password
 
@@ -47,9 +47,6 @@ def connect_socket(username, password, auth):
 
 
 def exit(username):
-    """
-    username: master username. sends newly generated passwords and edited old ones to host
-    """
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client.connect(('91.192.102.214', 5000))
     client.send(str.encode(username))
@@ -59,9 +56,9 @@ def exit(username):
     client.send(str.encode('*' * len(lines)))
     client.recv(1024)
     for i in lines:
-        client.send(str.encode(i.split()[0]))
+        client.send(i.split()[0].encode())
         client.recv(1024)
-        client.send(str.encode(i.split()[1]))
+        client.send(i.split()[1].encode())
         client.recv(1024)
     os.system('rm temp.txt')
     client.close()

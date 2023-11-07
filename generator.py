@@ -35,9 +35,6 @@ def get_punctuation(list_):
 # Main program starts here
 
 def generator():
-    """
-    generates 16-char random password and returns password
-    """
     mylist = []
     punctuation = get_chars(get_punctuation, mylist)
     uppercase = get_chars(get_uppercase, mylist)

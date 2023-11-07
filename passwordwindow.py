@@ -1,17 +1,17 @@
 import customtkinter as ctk
 from tkinter import messagebox as msg
 import generator as pg
+from cryptography.fernet import Fernet as F
 
 
 class PasswordSection:
     data = {}
 
     def __init__(self, data):
-        """
-        data: dictionary of credentials {usernames:passwords}
-        constructor of password generator window
-        """
-        self.data = data
+        if not data:
+            self.data = {}
+        else:
+            self.data = data
         self.window2 = ctk.CTkToplevel()
         self.window2.geometry("500x500")
         self.window2.title("Password generator")
@@ -30,20 +30,22 @@ class PasswordSection:
         self.window2.mainloop()
 
     def call_generator(self):
-        """
-        as the name suggests, it calls password generator then writes the new password into self.data
-        """
         passw = pg.generator()
-        print(passw)
+        print(passw.encode())
+        print(self.data)
         password = ctk.CTkLabel(self.window2, text=f"Your password is: {passw}", font=('System', 20), text_color='#b82c2c')
         password.pack()
-        self.data[self.website.get()] = passw
-        with open("passwords.txt", "a") as f:
-            f.write(f"website: {self.website.get()}, password: {passw}")
+        with open('file.key', 'rb') as f:
+            key = f.read()
+        fernet = F(key)
+        encrypted_password = fernet.encrypt(passw.encode())
+        encrypted_website = fernet.encrypt(self.website.get().encode())
+        print(encrypted_website)
+        self.data[encrypted_website] = encrypted_password
 
     def entry_check(self):
         if self.website.get() == '':
-            msg.showerror("Error", "Please enter valid username and website name")
+            msg.showerror("Error", "Please enter valid website name")
 
         else:
             self.call_generator()

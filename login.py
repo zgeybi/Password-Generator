@@ -6,9 +6,6 @@ import menu
 
 class LoginWindow:
     def __init__(self):
-        """
-        constructor of Login window
-        """
         self.root = CTk()
         self.root.title("Login")
         self.root.geometry('500x500')
@@ -42,9 +39,6 @@ class LoginWindow:
         app = main.App()
 
     def login(self):
-        """
-        sends credentials to client for authorization, and verifies response. In case of successful authentication opens menu
-        """
         username = self.username_entry.get()
         password = self.password_entry.get()
         response = client.connect_socket(username, password, 'log')

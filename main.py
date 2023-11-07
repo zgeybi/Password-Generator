@@ -5,9 +5,6 @@ import login
 
 class App:
     def __init__(self):
-        """
-        constructor of authorization window
-        """
         self.root = ctk.CTk()
         self.root.geometry('500x500')
         self.root.title("Main Menu")

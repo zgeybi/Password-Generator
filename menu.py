@@ -10,9 +10,6 @@ class Menu:
     data = {}
 
     def __init__(self, username, dic):
-        """
-        constructor of main menu, username: master username, dic: dictionary of {usernames:passwords}
-        """
         self.data = dic
         self.username = username
         self.root = ctk.CTk()
@@ -33,7 +30,7 @@ class Menu:
         self.view_pass.pack(padx=10, pady=12)
 
         self.save_exit = ctk.CTkButton(self.window, text='Save and Exit', font=('System', 20), command=self.save_passwords)
-
+        self.save_exit.pack(padx=10, pady=12)
         self.root.mainloop()
 
     def gen_pas(self):
@@ -43,20 +40,10 @@ class Menu:
         view = sfp.PasswordLookup(self.data, self.username)
 
     def save_passwords(self):
-        """
-        encrypts newly generated passwords and prepares it for sending back to host for storage
-        calls client.exit which sends back new data
-        """
-        with open('file.key', 'rb') as f:
-            key = f.read()
-
-        fernet = F(key)
-        for i in self.data.items():
-            encrypted = fernet.encrypt(bytes(i[1], 'utf-8'))
-            i[1] = encrypted
+        print(self.data)
         with open('temp.txt', 'w') as f:
-            for i in self.data.items:
-                f.write(f'{i[0]} {str(i[1])}')
+            for i in list(self.data):
+                f.write(i.decode() + ' ' + self.data[i].decode() + '\n')
         client.exit(self.username)
 
 
