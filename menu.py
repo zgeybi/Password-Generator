@@ -40,6 +40,9 @@ class Menu:
         view = sfp.PasswordLookup(self.data, self.username)
 
     def save_passwords(self):
+        """
+        writes updated passwords to cache file 'temp.txt' then calls client.exit() to send updated data back to server for storage
+        """
         print(self.data)
         with open('temp.txt', 'w') as f:
             for i in list(self.data):
