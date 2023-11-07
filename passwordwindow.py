@@ -30,6 +30,9 @@ class PasswordSection:
         self.window2.mainloop()
 
     def call_generator(self):
+        """
+        calls password generator then encrypts and writes new password with website name into cache dictionary 'data'
+        """
         passw = pg.generator()
         print(passw.encode())
         print(self.data)
@@ -44,6 +47,9 @@ class PasswordSection:
         self.data[encrypted_website] = encrypted_password
 
     def entry_check(self):
+        """
+        verifies correct input from user
+        """
         if self.website.get() == '':
             msg.showerror("Error", "Please enter valid website name")
 
