@@ -7,10 +7,8 @@ import client
 
 class Menu:
     username = ''
-    data = {}
 
-    def __init__(self, username, dic):
-        self.data = dic
+    def __init__(self, username):
         self.username = username
         self.root = ctk.CTk()
         self.root.geometry('600x600')
@@ -34,22 +32,19 @@ class Menu:
         self.root.mainloop()
 
     def gen_pas(self):
-        passwd = psw.PasswordSection(self.data)
+        passwd = psw.PasswordSection()
 
     def view_pass(self):
-        view = sfp.PasswordLookup(self.data, self.username)
+        view = sfp.PasswordLookup(self.username)
 
     def save_passwords(self):
         """
-        writes updated passwords to cache file 'temp.txt' then calls client.exit() to send updated data back to server for storage
+        Calls client.exit() to send back new data to server and exits back to Login/Reg window
         """
-        print(self.data)
-        with open('temp.txt', 'w') as f:
-            for i in list(self.data):
-                f.write(i.decode() + ' ' + self.data[i].decode() + '\n')
         client.exit(self.username)
+        self.root.destroy()
 
 
-def run_menu(username, data):
-    men = Menu(username, data)
+def run_menu(username):
+    men = Menu(username)
 

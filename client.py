@@ -1,12 +1,16 @@
 import socket
 import os
+from cryptography.fernet import Fernet as F
 
 
 def connect_socket(username, password, auth):
     """
-    Connects client to server, sends username=master username, password=master password, auth= type of authentication
-    log/reg
-    returns response from server as tuple
+        Connects client to server, sends username=master username, password=master password, auth= type of authentication
+        log/reg
+
+        in case of successful authentication, decrypts received data and writes it into 'cache.txt'
+        :returns:
+        tuple(response code from server, username)
     """
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -24,7 +28,7 @@ def connect_socket(username, password, auth):
         n = client.recv(2048).decode()
         if n == '1':
             client.close()
-            return response, username, password
+            return response, {}, username, password
         else:
             client.send(str.encode('s'))
             dic = {}
@@ -41,7 +45,19 @@ def connect_socket(username, password, auth):
                 dic[username] = password
 
             client.close()
-        return response, dic, username, password
+            with open('file.key', 'rb') as f:
+                key = f.read()
+            fernet = F(key)
+            temporary_list = []
+            for i, j in dic.items():
+                i = str(fernet.decrypt(i), 'utf-8')
+                j = str(fernet.decrypt(j), 'utf-8')
+                temporary_list.append(f"{i}: {j}")
+
+            with open('cache.txt', 'w') as f:
+                f.writelines(temporary_list)
+
+        return response, username
     else:
         client.send(str.encode(username))
         client.recv(1024)
@@ -53,21 +69,32 @@ def connect_socket(username, password, auth):
 
 def exit(username):
     """
-    sends updated passwords back to server and closes connection with server
+        Reads 'cache.txt', encrypts credentials, and sends the information back to server
     """
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client.connect(('91.192.102.214', 5000))
     client.send(str.encode(username))
     client.recv(1024)
-    with open('temp.txt', 'r') as f:
+    with open('file.key', 'rb') as f:
+        key = f.read()
+    fernet = F(key)
+    with open('cache.txt', 'r') as f:
         lines = f.readlines()
+    new_lines = []
+    for i in lines:
+        i = i.split(': ')
+        print(i)
+        encrypted_username = fernet.encrypt(i[0].encode())
+        encrypted_website = fernet.encrypt(i[1].encode())
+        new_lines.append(encrypted_username)
+        new_lines.append(encrypted_website)
     client.send(str.encode('*' * len(lines)))
     client.recv(1024)
-    for i in lines:
-        client.send(i.split()[0].encode())
+    for i in range(0, len(new_lines), 2):
+        client.send(new_lines[i])
         client.recv(1024)
-        client.send(i.split()[1].encode())
+        client.send(new_lines[i + 1])
         client.recv(1024)
-    os.system('rm temp.txt')
+    os.system('rm cache.txt')
     client.close()
 

@@ -1,10 +1,8 @@
 import customtkinter as ctk
-import client
-from cryptography.fernet import Fernet as F
 
 
 class PasswordLookup:
-    def __init__(self, data, username):
+    def __init__(self, username):
         self.username = username
         self.root = ctk.CTk()
         self.root.geometry('500x500')
@@ -16,8 +14,11 @@ class PasswordLookup:
 
         self.text = ctk.CTkTextbox(self.root, font=('system', 16), width=self.root.winfo_width(), yscrollcommand=self.window.set)
         self.text.pack(side='top', fil='x')
-        decrypted_data = self.decrypt_data(data)
-        for i in decrypted_data.items():
+        with open('cache.txt', 'r') as f:
+            lines = f.readlines()
+        for i in lines:
+            i = i.strip()
+            i = i.split(': ')
             self.text.insert(index='end', text=f"{i[0]}: {i[1]}\n")
         self.window.configure(command=self.text.yview)
         self.save_btn = ctk.CTkButton(self.root, text='Save', font=('System', 16), command=self.save)
@@ -25,46 +26,23 @@ class PasswordLookup:
 
         self.root.mainloop()
 
-    def decrypt_data(self, data):
-        """
-        takes dictionary of credentials as input, decrypts data and returns decrypted dictionary for presentation in window
-        """
-        with open('file.key', 'rb') as f:
-            key = f.read()
-        fernet = F(key)
-        decrypted_data = {}
-        for i, j in data.items():
-            i = str(fernet.decrypt(i), 'utf-8')
-            decrypted_data[i] = str(fernet.decrypt(j), 'utf-8')
-        return decrypted_data
-
     def save(self):
         """
-        reads updated passwords from text field, encrypts data and writes it into cache file 'temp.txt' then calls client.exit() to
-        send data back to server for storage
+        reads updated passwords from text box, and writes data into 'cache.txt' and closes window
         """
-        data = self.text.get(index1='1.0', index2='end').split('\n')
+        data = self.text.get(index1='1.0', index2='end')
         print(data)
-        new_data = {}
+        data = data.split('\n')
+        new_data = []
         for i in data:
-            if i == '':
-                break
-            line = i.split(': ')
-            new_data[line[0]] = line[1]
-        with open('file.key', 'rb') as f:
-            key = f.read()
+            print(i)
+            i = i.strip()
+            if not i:
+                pass
+            else:
+                new_data.append(i + '\n')
+        with open('cache.txt', 'w') as f:
+            f.writelines(new_data)
 
-        fernet = F(key)
-        new_dict = {}
-        for i in list(new_data):
-            temp = i
-            i = fernet.encrypt(bytes(i, 'utf-8'))
-            new_dict[i] = fernet.encrypt(bytes(new_data[temp], 'utf-8'))
-        print(new_data)
-        print(new_dict)
-        with open('temp.txt', 'w') as f:
-            for i in list(new_dict):
-                f.write(i.decode() + ' ' + new_dict[i].decode() + '\n')
-        client.exit(self.username)
         self.root.destroy()
 

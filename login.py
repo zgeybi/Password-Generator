@@ -40,15 +40,18 @@ class LoginWindow:
 
     def login(self):
         """
-        gets username and password from entry fields and calls client.connectsocket() to send credentials for verification
+            gets username and password from entry fields and calls client.connectsocket() to send credentials for verification
+
+            verifies response code from the server and takes the appropriate action
         """
         username = self.username_entry.get()
         password = self.password_entry.get()
         response = client.connect_socket(username, password, 'log')
         if response[0] == 'L1':
             dic = response[1]
+            print(dic)
             self.root.destroy()
-            menu.run_menu(username, dic)
+            menu.run_menu(username)
         elif response[0] == 'L0':
             self.error = CTkLabel(self.root, text='Wrong password, try again', font=('System', 20))
             self.error.pack(padx=10, pady=12)

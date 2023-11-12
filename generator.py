@@ -36,7 +36,8 @@ def get_punctuation(list_):
 
 def generator():
     """
-    generates random 16-char password and returns it
+        generates random 16-char password and returns it
+        :return: 16-char randomly generated string
     """
     mylist = []
     punctuation = get_chars(get_punctuation, mylist)
