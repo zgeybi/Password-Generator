@@ -22,21 +22,17 @@ To simulate the work of cache, I'm using a .txt file to/from which data is being
 We're using `sockets` library to connect using TCP to a linux server in the cloud. \
 The `client.py` file runs on the user's side and handles data transmition between the user and the serve.
 
-# Menu
-Here you can choose between generating a new password or viewing the passwords you have saved in your account.
-
-# Password Generator window
+# Some instructions
+## Password Generator window
 Enter the name of the website you need to generate a password for and click generate. Password is written to `cache.txt`, BUT DON'T EXIT THE APP YET. \
 To save new passwords in your account you MUST go back to menu and click `save and exit`.
 
-# Password Explorer window
+## Password Explorer window
 Here data in `cache.txt` will be read and viewed in a text box. You have the option to change some passwords to something you like. \
 !IMPORTANT!
 Make sure you maintain the format: \
 `website-name: password\n` \
 `website-name: password\n` \
-. \
-etc \
 This guarantees correct read/write operations to and from the database. \
 DON'T EXIT THE APP YET \
 when you click save, it writes new changes into `cache.txt`, to finish your session and send back the data go back to main menu and click `save and exit`.
