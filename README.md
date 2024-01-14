@@ -9,7 +9,15 @@ It helps you save your passwords and generate strong and safe new passwords with
 4. run `python3 main.py`
 
 # What's going on
-Authorization and storing passwords is done on a linux server, client side is for user to edit passwords or generates new ones, then socket does the job of saving this information back to the database
+## GUI
+GUI is made using `customtkinter` library, which has an elegant and modern look
+## Encryption of passwords
+Encryption is done using `cryptography` library, specifically fernet.\
+`fernet` allowed us to use symmetric encryption to be able to securely encrypt and transmit user's passwords. It uses a uniquely generated URL-safe base64-encoded 32-byte key to encrypt a string and returns a URL-safe base64-encoded message. \
+The key is stored on the user's machine so there is no risk of it being stolen while transmitting the data.
+## Connection with the server
+We're using `sockets` library to connect using TCP to a linux server in the cloud. \
+The `client.py` file runs on the user's side and handles data transmition between the user and the serve.
 
 # Register window
 To register yourself, enter your master username and password and click register, Menu window will open
