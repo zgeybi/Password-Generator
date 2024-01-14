@@ -15,15 +15,12 @@ GUI is made using `customtkinter` library, which has an elegant and modern look
 Encryption is done using `cryptography` library, specifically fernet.\
 `fernet` allowed us to use symmetric encryption to be able to securely encrypt and transmit user's passwords. It uses a uniquely generated URL-safe base64-encoded 32-byte key to encrypt a string and returns a URL-safe base64-encoded message. \
 The key is stored on the user's machine so there is no risk of it being stolen while transmitting the data.
+## Storing cache
+To simulate the work of cache, I'm using a .txt file to/from which data is being written/read, the file `cache.txt` is generated once the connection with the server is established and is deleted after the user clicks 'Save and Exit', which updates the server with new data and terminates the connection with the server
+
 ## Connection with the server
 We're using `sockets` library to connect using TCP to a linux server in the cloud. \
 The `client.py` file runs on the user's side and handles data transmition between the user and the serve.
-
-# Register window
-To register yourself, enter your master username and password and click register, Menu window will open
-
-# Login window
-Log in using your master username and password, Menu window will open, and a `cache.txt` file will be created, to which your saved passwords and new passwords will be written to.
 
 # Menu
 Here you can choose between generating a new password or viewing the passwords you have saved in your account.
