@@ -5,7 +5,8 @@ It helps you save your passwords and generate strong and safe new passwords with
 # Instructions
 1. clone repository
 2. `cd Password-Generator`
-3. run `python3 main.py`
+3. install packages mentioned in `requirements.txt`
+4. run `python3 main.py`
 
 # What's going on
 Authorization and storing passwords is done on a linux server, client side is for user to edit passwords or generates new ones, then socket does the job of saving this information back to the database
