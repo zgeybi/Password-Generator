@@ -4,9 +4,17 @@ It helps you save your passwords and generate strong and safe new passwords with
 
 # Instructions
 1. clone repository
-2. `cd Password-Generator`
+    ```bash
+    git clone https://github.com/zgeybi/Password-Generator.git
+    ```
+2. ```bash 
+   cd Password-Generator
+   ```
 3. install packages mentioned in `requirements.txt`
-4. run `python3 main.py`
+4. run 
+    ```bash
+    python3 main.py
+    ```
 
 # What's going on
 ## GUI
@@ -19,7 +27,7 @@ The key is stored on the user's machine so there is no risk of it being stolen w
 To simulate the work of cache, I'm using a .txt file to/from which data is being written/read, the file `cache.txt` is generated once the connection with the server is established and is deleted after the user clicks 'Save and Exit', which updates the server with new data and terminates the connection with the server
 
 ## Connection with the server
-We're using `sockets` library to connect using TCP to a linux server in the cloud. \
+I'm using `sockets` library to connect using TCP to a linux server in the cloud. \
 The `client.py` file runs on the user's side and handles data transmition between the user and the serve.
 
 # Some instructions
