@@ -5,8 +5,8 @@ import hashlib
 
 
 ServerSocket = socket.socket(family=socket.AF_INET, type=socket.SOCK_STREAM)
-host = '91.192.102.214'
-port = 5050
+host = 'localhost'
+port = 5000
 ThreadCount = 0
 try:
     ServerSocket.bind((host, port))
@@ -17,7 +17,7 @@ print('Waiting for a Connection..')
 ServerSocket.listen(5)
 HashTable = {}
 
-with open('/root/server/users.txt', 'r') as file:
+with open('/home/tim/server/users.txt', 'r') as file:
     lines = file.readlines()
     for i in lines:
         pair = i.split()
@@ -37,8 +37,8 @@ def threaded_client(connection):
         if name not in HashTable:
             HashTable[name] = password
             connection.send(str.encode('R1'))
-            os.mkdir(f'/home/{name}')
-            os.chdir(f'/home/{name}')
+            os.mkdir(f'/home/tim/users/{name}')
+            os.chdir(f'/home/tim/users/{name}')
             os.system(f'touch passwords-{name}')
             print('Registered : ', name)
             print("{:<8} {:<20}".format('USER', 'PASSWORD'))
@@ -64,7 +64,7 @@ def threaded_client(connection):
         else:
             if (HashTable[name] == password):
                 connection.send(str.encode('L1'))
-                os.chdir(f'/home/{name}')
+                os.chdir(f'/home/tim/users/{name}')
                 connection.recv(1024)
                 with open(f'passwords-{name}', 'r') as f:
                     lines = f.read()
@@ -89,7 +89,7 @@ def threaded_client(connection):
                 print('Connection denied : ', name)
     while True:
         break
-    with open('/root/server/users.txt', 'w') as file:
+    with open('/home/tim/server/users.txt', 'w') as file:
         for i in HashTable.items():
             file.write(f"{i[0]} {i[1]}\n")
 

@@ -5,8 +5,8 @@ import os
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-host = '91.192.102.214'
-port = 5000
+host = 'localhost'
+port = 5050
 
 thread_count = 0
 
@@ -22,7 +22,7 @@ server.listen(5)
 def get_passwords(connection):
     username1 = connection.recv(1024).decode()
     connection.send(str.encode('s'))
-    os.chdir(f'/home/{username1}')
+    os.chdir(f'/home/tim/users/{username1}')
     number_of_lines = connection.recv(1024).decode()
     connection.send(str.encode('s'))
     data = {}
